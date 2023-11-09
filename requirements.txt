@@ -1,0 +1,4 @@
+Django==4.0
+django-registration==3.2
+crispy-bootstrap5==0.6
+django-crispy-forms==1.14.0

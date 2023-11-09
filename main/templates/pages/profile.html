@@ -1,0 +1,107 @@
+{% extends 'base/base.html' %}
+
+
+{% block content %}
+  <div class="row">
+    <div class="col border bg-light mt-2">
+      <h3>Профиль пользователя {{ user.username }}</h3>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col border m-3 bg-light px-3 py-2">
+      <h4>Здесь детали профиля</h4>
+      <p id="id_name">Имя: {{ user.username }}&nbsp&nbsp&nbsp<a onclick="change_name()" id="btn_change_name" href="#">Изменить</a>
+      </p>
+      <form method="POST" action="{% url 'profile' user.id %}" id="form_change_name" hidden>
+        {% csrf_token %}
+        <label for="id_new_name" class="form-label">Введите новое имя:</label>
+        <input type="text" name="name" class="form-control" id="id_new_name">
+        <input type="submit" class="btn btn-primary" value="Сохранить">
+        <br>
+        <br>
+      </form>
+
+      <p id="id_email">Почта: {{ user.email }}&nbsp&nbsp&nbsp<a onclick="change_email()" id="btn_change_email" href="#">Изменить</a>
+      </p>
+
+      <form method="POST" action="{% url 'profile' user.id %}" id="form_change_email" hidden>
+        {% csrf_token %}
+        <label for="id_new_email" class="form-label">Введите новую почту:</label>
+        <input type="email" name="email" class="form-control" id="id_new_email">
+        <input type="submit" class="btn btn-primary" value="Сохранить">
+        <br>
+        <br>
+      </form>
+
+      <a onclick="change_password()" id="btn_change_psw" href="#">Изменить пароль</a>
+      <br id="br_useless">
+      <form method="POST" action="{% url 'profile' user.id %}" id="form_change_psw" hidden>
+        {% csrf_token %}
+        <div class="password">
+          <label for="password_input" class="form-label">Введите новый пароль:</label>
+          <input type="password" class="form-control" id="password_input" name="password">
+          <label><input type="checkbox" class="password-checkbox" id="check_box" onclick="hide_show_psw()"> Показать
+            пароль</label>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Сохранить">
+      </form>
+      <br>
+    </div>
+    <div class="col border m-3 bg-light px-3 py-2">
+      <h4>Активность</h4>
+      <table class="table table-bordered table-hover text-center">
+        <thead>
+        <tr>
+          <th scope="col">Действие</th>
+          <th scope="col">Дата</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for votefact in votefacts %}
+          <tr>
+            <td>Проголосовал за
+              {% if  votefact.voting.type == 2 %}
+                несколько вариантов
+              {% else %}
+                "{{ votefact.fact.votefactvariant_set.first.variant.description }}"
+              {% endif %}
+              в голосовании "<a href="{% url 'voting_public' votefact.voting.id %}">{{ votefact.voting.name }}</a>"
+            </td>
+            <td>{{ votefact.fact.created_at }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    function change_password() {
+      form_change_psw.hidden = false
+      btn_change_psw.hidden = true
+      br_useless.hidden = true
+    }
+
+    function change_name() {
+      form_change_name.hidden = false
+      id_name.hidden = true
+    }
+
+    function change_email() {
+      form_change_email.hidden = false
+      id_email.hidden = true
+    }
+
+    function hide_show_psw() {
+      if (check_box.checked) {
+        password_input.setAttribute('type', 'text')
+      } else {
+        password_input.setAttribute('type', 'password')
+      }
+    }
+  </script>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base/base.html' %}
+
+
+{% block content %}
+<div class="row">
+  <div class="col border bg-light mt-2">
+    <h3>С возвращением!</h3>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col position-relative border bg-light px-3 py-2">
+    <div align="right" class="position-absolute top-0 end-0 mt-1 mb-2 px-3 "><button id="button_new_voting" onclick="new_voting()" class = "btn btn-primary">+</button></div>
+    {% if votings %}
+    <h4>Мои голосования:</h4>
+    <table class="table table-bordered table-hover text-center">
+      <thead>
+      <tr>
+        <th scope="col">№</th>
+        <th scope="col">Название</th>
+        <th scope="col">Автор</th>
+        <th scope="col">Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for item in votings %}
+        <tr>
+          <th>{{item.id}}</th>
+          <th><a class="link-dark" href="/voting/{{item.id}}/">{{item.name}}</a></th>
+          <th>{{item.author}}</th>
+          {% if item.published %}
+            <th>Открыто</th>
+          {% else %}
+            <th>Закрыто</th>
+          {% endif %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <h4>Вы еще не создавали голосований :(</h4>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  function new_voting(){
+    document.location.href = "/create_voting/";
+  }
+</script>
+{% endblock %}
+

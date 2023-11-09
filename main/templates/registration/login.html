@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+  <div class="col border bg-light">
+    <h3 class="text-center">Авторизация (vasya-promprog)</h3>
+  </div>
+</div>
+
+    <hr>
+
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+      <div class="w-25 pt-4 container border text-center bg-light">
+          {{ form | crispy }}
+          <div class="py-2"><input class="btn btn-lg btn-primary mt-2" type="submit" value="Войти"></div>
+          <div class="container bordered text-center px-0 mt-3 mb-3">
+            Нет аккаунта?
+            <a href="/accounts/register/">Регистрация</a>
+          </div>
+        </div>
+    </form>
+
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+
+{% endblock %}

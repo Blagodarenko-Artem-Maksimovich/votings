@@ -1,0 +1,86 @@
+{% extends 'base/base.html' %}
+
+
+{% block content %}
+  <div class="row mt-3">
+    <div class="col border bg-light py-2 mb-3">
+      <h4>Создание нового голосования:</h4>
+    </div>
+  </div>
+
+  <div class="row mt-2 px-3">
+      <div class="col border bg-light py-2 mb-3">
+        <form method="POST" action="/create_voting/">
+          {% csrf_token %}
+
+          <div class="row mb-3 ">
+            <div class="col">
+              <div class="card p-2">
+                <h5 class="mt-3" style="margin-left:10px">Введите название и описание голосования:</h5>
+                <div class="card mt-3">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <h6 class="">Название:</h6>
+                      <input class="form-control" name="voting_name" placeholder="Название">
+                      <h6 class="mt-4">Описание:</h6>
+                      <input class="form-control" name="voting_description" placeholder="Описание">
+                     </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="card p-2 h-100">
+                <h5 style="margin-left:10px">Выберите тип голосования:</h5>
+                <div class="card mt-3">
+                  <div class="card-body">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="voting_type" value="1" id="voting_type_1" checked>
+                      <label class="form-check-label" for="voting_type_1">
+                        Один из многих
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="voting_type" value="2" id="voting_type_2" checked>
+                      <label class="form-check-label" for="voting_type_2">
+                        Несколько из многих
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="voting_type" value="3" id="voting_type_3" checked>
+                      <label class="form-check-label" for="voting_type_3">
+                        Дискретный
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card p-2">
+                <h5 class="mt-3" style="margin-left:10px">Введите варианты голосования:</h5>
+                <div class="card mt-3">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <h6 class="">Первый вариант:</h6>
+                      <input class="form-control" name="first_variant" placeholder="Да">
+                      <h6 class="mt-4">Второй вариант:</h6>
+                      <input class="form-control" name="second_variant" placeholder="Нет">
+                     </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 mt-3 mb-2">
+            <button type="submit" class="btn btn-primary">Создать</button>
+          </div>
+        </form>
+        </div>
+      </div>
+  </div>
+{% endblock %}
